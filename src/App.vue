@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Month v-for="(mese, index) in month" :month="mese" :key="index"/>
+    <Month v-for="(item, index) in revenueData" :month="item.mese" :bill="item.documenti" :revenue="item.importo" :key="index"/>
   </div>
 </template>
 
@@ -29,18 +29,37 @@ export default {
         'Novembre', 
         'Dicembre'
       ],
+      revenueData: []
     }
-  }
+  },
+  mounted: function() {
+    this.axios
+    .get('http://staccah.fattureincloud.it/testfrontend/data.json')
+    .then((xhr) => {
+      this.revenueData = xhr.data.mesi;
+      this.revenueData.forEach((element, index) => {
+        this.month.forEach((item, indice) => {
+          if(index === indice) {
+            element.mese = item;
+          }
+        })
+      })//end forEach
+    })//end axios call
+  }//end mounted
 }
 </script>
 
 <style>
+@font-face {
+  font-family: "Inter";
+  src: local("Inter"),
+  url(./font/Inter/Inter-Regular.ttf) format("truetype");
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 </style>
