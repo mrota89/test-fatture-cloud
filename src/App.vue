@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <Month v-for="(item, index) in revenueData" :month="item.mese" :bill="item.documenti" :revenue="item.importo" :key="index"/>
+    <Month v-for="(item, index) in revenueData" :month="item.mese" :bill="item.documenti" :revenue="item.importo" 
+    :indice="index" :key="index"/>
   </div>
 </template>
 
@@ -29,7 +30,7 @@ export default {
         'Novembre', 
         'Dicembre'
       ],
-      revenueData: []
+      revenueData: [],
     }
   },
   mounted: function() {

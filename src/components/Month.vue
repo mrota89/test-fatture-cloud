@@ -1,9 +1,10 @@
 <template>
-  <div :class="monthSelected()" @click="flag=true">
+  <div class="frame" @click="this.frameIDX=indice">
     <div class="month">{{ month }}</div>
     <div class="total">
       <div class="amount-bill">{{ bill }} doc.</div>
       <div class="amount-revenue">{{ revenue }} €</div>
+      <div :class="monthSelected(indice)"></div>
     </div>
   </div>
 </template>
@@ -15,16 +16,17 @@ export default {
     month: String,
     bill: Number,
     revenue: Number,
-    flag: Boolean
+    indice: Number,
   },
   methods: {
-    monthSelected: function() {
-      if (this.flag) {
-        return 'frame selected'
+    monthSelected: function(index) {
+      if (index === this.frameIDX) {
+        return 'selector-bar selected'
       } else {
-        return 'frame'
+        return 'selector-bar'
       }
-    }
+    },
+
   }
 }
 </script>
@@ -53,26 +55,29 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding-left: 10px;
     cursor: pointer;
 
     .amount-bill, .amount-revenue {
       height: 18px;
       line-height: 18px;
       color: #6F7E86;
+      padding-left: 10px;
     }
 
     .amount-revenue {
-      padding-bottom: 10px;
       color: #00875A;
+    }
+
+    .selector-bar {
+      height: 8px;
+    }
+
+    .selector-bar.selected {
+      background: #0D97D5;
     }
   }
 }
 .frame:first-child {
   border-left: solid 1px #cecece;
-}
-
-.frame.selected {
-  border-bottom: solid 5px #0D97D5;
 }
 </style>
