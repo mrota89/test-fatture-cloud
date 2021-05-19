@@ -1,5 +1,5 @@
 <template>
-  <div class="frame" @click="this.frameIDX=indice">
+  <div class="frame" @mousedown="updateVar()">
     <div class="month">{{ month }}</div>
     <div class="total">
       <div class="amount-bill">{{ bill }} doc.</div>
@@ -18,15 +18,29 @@ export default {
     revenue: Number,
     indice: Number,
   },
+  data: function() {
+    return {
+      flag: false
+    }
+  },
   methods: {
     monthSelected: function(index) {
-      if (index === this.frameIDX) {
+      if (index === this.$parent.frameIDX) {
         return 'selector-bar selected'
       } else {
         return 'selector-bar'
       }
     },
-
+    updateVar: function() {
+      this.$parent.frameIDX=this.indice;
+      this.flag=true;
+      this.$parent.pressed=true;
+    },
+    varFalse: function() {
+      if(this.$parent.pressed) {
+        this.$parent.pressed=false;
+      }
+    }
   }
 }
 </script>
