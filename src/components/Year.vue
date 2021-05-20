@@ -1,12 +1,12 @@
 <template>
-  <div id="year" @mousedown="startDrag()" @mousemove="doDrag">
-    <Month v-for="(item, index) in revenueData" 
+  <div id="year" @mousedown="startDrag">
+    <Month v-for="(item, index) in ajaxCallData" 
     :month="item.mese" 
     :bill="item.documenti" 
     :revenue="item.importo" 
     :indice="index" 
+    :altezza="item.altezza"
     :key="index"/>
-    <div>X: {{x}}, Y: {{y}}</div>
   </div>
 </template>
 
@@ -35,45 +35,63 @@ export default {
         'Novembre', 
         'Dicembre'
       ],
-      revenueData: [],
-      frameIDX: -1,
-      isClicked: false,
+      ajaxCallData: [],
+      monthRevenue: [],
+      monthIDarray: [],
+      altezze: [],
       dragging: false,
-      x: 'no',
-      y: 'no',
+      maxRevenue: 0
     }
   },
   mounted: function() {
+    //listener sul rilascio del click
     window.addEventListener('mouseup', this.stopDrag);
+
+    //chiamata ajax
     this.axios
     .get('http://staccah.fattureincloud.it/testfrontend/data.json')
     .then((xhr) => {
-      this.revenueData = xhr.data.mesi;
-      this.revenueData.forEach((element, index) => {
+      this.ajaxCallData = xhr.data.mesi;
+
+      //pusho nell'oggetto  il mese corrispondente
+      this.ajaxCallData.forEach((element, index) => {
         this.month.forEach((item, indice) => {
           if(index === indice) {
             element.mese = item;
           }
-        })
+        });
+
+        //salvo in un array gli importi mensili
+        this.monthRevenue.push(element.importo);
       })//end forEach
-    })//end axios call
+
+      //trovo l'importo più alto
+      this.maxRevenue = Math.max(...this.monthRevenue);
+
+      //trasformo in percentuale i valori degli importi e li salvo in un array
+      this.monthRevenue.forEach((element) => {
+        let altezzaRettangolo = 0;
+        altezzaRettangolo = element/this.maxRevenue;
+        this.altezze.push(parseFloat(altezzaRettangolo.toFixed(2)));
+      })
+
+      this.ajaxCallData.forEach((element, index) => {
+        this.altezze.forEach((item, indice) => {
+          if(index === indice) {
+            element.altezza = item;
+          }
+        })
+      })
+    });//end axios call
   },//end mounted
 
   methods: {
     startDrag() {
       this.dragging = true;
-      this.x = this.y = 0;
     },
     stopDrag() {
       this.dragging = false;
-      this.x = this.y = 'no';
     },
-    doDrag(event) {
-      if (this.dragging) {
-        this.x = event.clientX;
-        this.y = event.clientY;
-      }
-    }
   }
 }
 </script>

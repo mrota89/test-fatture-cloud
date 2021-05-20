@@ -1,10 +1,10 @@
 <template>
-  <div class="frame" @mousedown="updateVar" @mouseenter="selectFrame">
+  <div class="frame" @mouseenter="draggedMonth" @mousedown="clickedMonth">
     <div class="month">{{ month }}</div>
     <div class="total">
       <div class="amount-bill">{{ bill }} doc.</div>
       <div class="amount-revenue">{{ revenue }} €</div>
-      <div :class="monthSelected(indice)"></div>
+      <div :class="selectedMonth()"></div>
     </div>
   </div>
 </template>
@@ -17,26 +17,26 @@ export default {
     bill: Number,
     revenue: Number,
     indice: Number,
-  },
-  data: function() {
-    return {
-      flag: false
-    }
+    altezza: Number
   },
   methods: {
-    monthSelected: function(index) {
-      if (index === this.$parent.frameIDX || this.flag === true) {
+    selectedMonth: function() {
+      if (this.$parent.monthIDarray.includes(this.indice)) {
         return 'selector-bar selected'
       } else {
         return 'selector-bar'
       }
     },
-    updateVar: function() {
-      this.$parent.frameIDX=this.indice;
+    pushMonth: function() {
+      this.$parent.monthIDarray.push(this.indice);
     },
-    selectFrame: function() {
+    clickedMonth: function() {
+      this.$parent.monthIDarray = [];
+      this.pushMonth();
+    },
+    draggedMonth: function() {
       if(this.$parent.dragging) {
-        this.flag = true;
+        this.pushMonth();
       }
     }
   }
