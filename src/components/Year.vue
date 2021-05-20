@@ -72,7 +72,7 @@ export default {
       this.monthRevenue.forEach((element) => {
         let altezzaRettangolo = 0;
         altezzaRettangolo = element/this.maxRevenue;
-        this.altezze.push(parseFloat(altezzaRettangolo.toFixed(2)));
+        this.altezze.push(parseFloat(altezzaRettangolo.toFixed(2)) * 100);
       })
 
       this.ajaxCallData.forEach((element, index) => {

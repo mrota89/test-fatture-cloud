@@ -1,6 +1,7 @@
 <template>
   <div class="frame" @mouseenter="draggedMonth" @mousedown="clickedMonth">
     <div class="month">{{ month }}</div>
+    <div class="rettangolo" :style="styleObject"></div>
     <div class="total">
       <div class="amount-bill">{{ bill }} doc.</div>
       <div class="amount-revenue">{{ revenue }} €</div>
@@ -17,8 +18,17 @@ export default {
     bill: Number,
     revenue: Number,
     indice: Number,
-    altezza: Number
+    altezza: Number,
   },
+  data: function() {
+    return {
+      styleObject: {
+        height: `${this.altezza}%`,
+        backgroundColor: '#cecece'
+      }
+    }
+  },
+
   methods: {
     selectedMonth: function() {
       if (this.$parent.monthIDarray.includes(this.indice)) {
@@ -38,7 +48,7 @@ export default {
       if(this.$parent.dragging) {
         this.pushMonth();
       }
-    }
+    },
   }
 }
 </script>
@@ -52,10 +62,14 @@ export default {
   width: 80px;
   height: 110px;
   font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position:relative;
   
   .month {
-    height: 25px;
-    line-height: 25px;
+    height: 20px;
+    line-height: 20px;
     border-top: solid 1px #cecece;
     border-bottom: solid 1px #cecece;
     padding-left: 10px;
@@ -63,11 +77,15 @@ export default {
   }
 
   .total {
-    height: calc(100% - 25px);
+    height: calc(110px - 25px);
+    width: inherit;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     cursor: pointer;
+    position: absolute;
+    transform: translate( 0, -50%);
+    top: 65%;
 
     .amount-bill, .amount-revenue {
       height: 18px;
