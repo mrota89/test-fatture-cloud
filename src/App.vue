@@ -21,4 +21,10 @@ export default {
   src: local("Inter"),
   url(./font/Inter/Inter-Regular.ttf) format("truetype");
 }
+#app {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>

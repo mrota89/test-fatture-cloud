@@ -1,5 +1,5 @@
 <template>
-  <div class="frame" @mousedown="updateVar()">
+  <div class="frame" @mousedown="updateVar" @mouseenter="selectFrame">
     <div class="month">{{ month }}</div>
     <div class="total">
       <div class="amount-bill">{{ bill }} doc.</div>
@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     monthSelected: function(index) {
-      if (index === this.$parent.frameIDX) {
+      if (index === this.$parent.frameIDX || this.flag === true) {
         return 'selector-bar selected'
       } else {
         return 'selector-bar'
@@ -33,12 +33,10 @@ export default {
     },
     updateVar: function() {
       this.$parent.frameIDX=this.indice;
-      this.flag=true;
-      this.$parent.pressed=true;
     },
-    varFalse: function() {
-      if(this.$parent.pressed) {
-        this.$parent.pressed=false;
+    selectFrame: function() {
+      if(this.$parent.dragging) {
+        this.flag = true;
       }
     }
   }
@@ -87,7 +85,7 @@ export default {
     }
 
     .selector-bar.selected {
-      background: #0D97D5;
+      background: #00875A;
     }
   }
 }

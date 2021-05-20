@@ -1,11 +1,12 @@
 <template>
-  <div id="year">
+  <div id="year" @mousedown="startDrag()" @mousemove="doDrag">
     <Month v-for="(item, index) in revenueData" 
     :month="item.mese" 
     :bill="item.documenti" 
     :revenue="item.importo" 
     :indice="index" 
     :key="index"/>
+    <div>X: {{x}}, Y: {{y}}</div>
   </div>
 </template>
 
@@ -35,11 +36,15 @@ export default {
         'Dicembre'
       ],
       revenueData: [],
-      frameIDX: 0,
-      pressed: false
+      frameIDX: -1,
+      isClicked: false,
+      dragging: false,
+      x: 'no',
+      y: 'no',
     }
   },
   mounted: function() {
+    window.addEventListener('mouseup', this.stopDrag);
     this.axios
     .get('http://staccah.fattureincloud.it/testfrontend/data.json')
     .then((xhr) => {
@@ -52,15 +57,29 @@ export default {
         })
       })//end forEach
     })//end axios call
-  }//end mounted
+  },//end mounted
+
+  methods: {
+    startDrag() {
+      this.dragging = true;
+      this.x = this.y = 0;
+    },
+    stopDrag() {
+      this.dragging = false;
+      this.x = this.y = 'no';
+    },
+    doDrag(event) {
+      if (this.dragging) {
+        this.x = event.clientX;
+        this.y = event.clientY;
+      }
+    }
+  }
 }
 </script>
 
 <style>
 #year {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
 }
 </style>
