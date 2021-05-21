@@ -33,7 +33,7 @@ export default {
        //dati di stile per la barra-grafico di sfondo
       styleObject: {
         height: `calc(85px * ${this.graph})`,
-        backgroundColor: '#e0f1eb'
+        backgroundColor: '#e0f1eb', 
       }
     }
   },
