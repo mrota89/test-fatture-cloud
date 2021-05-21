@@ -52,11 +52,14 @@ export default {
     //salva in un array l'index del mese selezionato
     pushMonth: function() {
       this.$parent.monthIDarray.push(this.indice);
-      this.$parent.monthNameArray.push(this.month);
+      
+      if(!this.$parent.monthNameArray.includes(this.month)) {
+        this.$parent.monthNameArray.push(this.month);
+      }
     },
     clickedMonth: function() {
-      this.$parent.monthIDarray = [];
-      this.$parent.monthNameArray = [];
+      this.$parent.monthIDarray.length = 0;
+      this.$parent.monthNameArray.length = 0;
       this.pushMonth();
     },
     draggedMonth: function() {
@@ -69,10 +72,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./src/scss/_commons.scss";
+
+/*variabili */
+$border-grey: solid 1px #cecece;
+$light-blue: #0d97d5;
+$border-blue: solid 2px $light-blue;
+$green-select: #00875A;
+$green-clicked: #80ad9d;
+$num-doc-color: #6F7E86;
+$frame-width: 80px;
+$frame-height: 110px;
+$month-height: 25px;
+$total-height: calc(110px - 25px);
+$amount-height: 18px;
+$pad-10-l: 10px;
+/*/variabili */
 
 .frame {
-  @include flex-column;
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
   border-right: $border-grey;
   border-bottom: $border-blue;
@@ -93,7 +111,8 @@ export default {
   }
 
   .total {
-    @include flex-column;
+    display: flex;
+    flex-direction: column;
     justify-content: flex-end;
     height: $total-height;
     width: $frame-width;
