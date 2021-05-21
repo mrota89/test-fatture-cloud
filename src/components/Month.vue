@@ -23,7 +23,7 @@ export default {
   data: function() {
     return {
       styleObject: {
-        height: `${this.altezza}%`,
+        height: `calc((85px * ${this.altezza}) / 100)`,
         backgroundColor: '#cecece'
       }
     }
@@ -68,8 +68,8 @@ export default {
   position:relative;
   
   .month {
-    height: 20px;
-    line-height: 20px;
+    height: 25px;
+    line-height: 25px;
     border-top: solid 1px #cecece;
     border-bottom: solid 1px #cecece;
     padding-left: 10px;
@@ -85,7 +85,7 @@ export default {
     cursor: pointer;
     position: absolute;
     transform: translate( 0, -50%);
-    top: 65%;
+    top: 70%;
 
     .amount-bill, .amount-revenue {
       height: 18px;
@@ -96,6 +96,7 @@ export default {
 
     .amount-revenue {
       color: #00875A;
+      margin-bottom: 5px;
     }
 
     .selector-bar {

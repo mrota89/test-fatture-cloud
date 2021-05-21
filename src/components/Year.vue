@@ -54,17 +54,13 @@ export default {
       this.ajaxCallData = xhr.data.mesi;
 
       //pusho nell'oggetto  il mese corrispondente
-      this.ajaxCallData.forEach((element, index) => {
-        this.month.forEach((item, indice) => {
-          if(index === indice) {
-            element.mese = item;
-          }
-        });
+      this.createArray(this.month, 'mese');
 
         //salvo in un array gli importi mensili
+      this.ajaxCallData.forEach((element) => {
         this.monthRevenue.push(element.importo);
-      })//end forEach
-
+      })
+        
       //trovo l'importo più alto
       this.maxRevenue = Math.max(...this.monthRevenue);
 
@@ -75,24 +71,27 @@ export default {
         this.altezze.push(parseFloat(altezzaRettangolo.toFixed(2)) * 100);
       })
 
-      this.ajaxCallData.forEach((element, index) => {
-        this.altezze.forEach((item, indice) => {
-          if(index === indice) {
-            element.altezza = item;
-          }
-        })
-      })
+      this.createArray(this.altezze, 'altezza');
     });//end axios call
   },//end mounted
 
   methods: {
-    startDrag() {
+    startDrag: function() {
       this.dragging = true;
     },
-    stopDrag() {
+    stopDrag: function() {
       this.dragging = false;
     },
-  }
+    createArray: function(array, property) {
+      this.ajaxCallData.forEach((element, index) => {
+        array.forEach((item, indice) => {
+          if(index === indice) {
+            element[property] = item;
+          }
+        })
+      })   
+    }
+  }//end methods
 }
 </script>
 
