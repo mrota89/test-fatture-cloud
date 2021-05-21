@@ -1,11 +1,18 @@
 <template>
   <div class="frame" @mouseenter="draggedMonth" @mousedown="clickedMonth">
     <div class="month">{{ month }}</div>
-    <div class="rettangolo" :style="styleObject"></div>
+
+    <!-- barra grafico di sfondo -->
+    <div class="graph" :style="styleObject"></div>
+    <!-- /barra grafico di sfondo -->
+
     <div class="total">
       <div class="amount-bill">{{ bill }} doc.</div>
       <div class="amount-revenue">{{ revenue }} €</div>
+
+      <!-- selettore casella -->
       <div :class="selectedMonth()"></div>
+      <!-- /selettore casella -->
     </div>
   </div>
 </template>
@@ -18,30 +25,38 @@ export default {
     bill: Number,
     revenue: Number,
     indice: Number,
-    altezza: Number,
+    graph: Number,
   },
+  
   data: function() {
     return {
+       //dati di stile per la barra-grafico di sfondo
       styleObject: {
-        height: `calc((85px * ${this.altezza}) / 100)`,
-        backgroundColor: '#cecece'
+        height: `calc(85px * ${this.graph})`,
+        backgroundColor: '#e0f1eb'
       }
     }
   },
 
   methods: {
+    //a seconda dell'evento click, ritorna una classe diversa per la barra di selezione
     selectedMonth: function() {
-      if (this.$parent.monthIDarray.includes(this.indice)) {
+      if (this.$parent.monthIDarray.includes(this.indice) && this.$parent.dragging) {
+        return 'selector-bar selected-clicked'
+      } else if (this.$parent.monthIDarray.includes(this.indice) && !this.$parent.dragging) {
         return 'selector-bar selected'
       } else {
         return 'selector-bar'
       }
     },
+    //salva in un array l'index del mese selezionato
     pushMonth: function() {
       this.$parent.monthIDarray.push(this.indice);
+      this.$parent.monthNameArray.push(this.month);
     },
     clickedMonth: function() {
       this.$parent.monthIDarray = [];
+      this.$parent.monthNameArray = [];
       this.pushMonth();
     },
     draggedMonth: function() {
@@ -54,48 +69,48 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "./src/scss/_commons.scss";
+
 .frame {
-  border-right: solid 1px #cecece;
-  border-bottom: solid 2px #0D97D5;
+  @include flex-column;
+  justify-content: space-between;
+  border-right: $border-grey;
+  border-bottom: $border-blue;
   font-family: 'Inter', sans-serif;
   font-size: 12px;
-  width: 80px;
-  height: 110px;
+  width: $frame-width;
+  height: $frame-height;
   font-weight: 500;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   position:relative;
   
   .month {
-    height: 25px;
-    line-height: 25px;
-    border-top: solid 1px #cecece;
-    border-bottom: solid 1px #cecece;
-    padding-left: 10px;
-    color: #0d97d5;
+    height: $month-height;
+    line-height: $month-height;
+    border-top: $border-grey;
+    border-bottom: $border-grey;
+    padding-left: $pad-10-l;
+    color: $light-blue;
   }
 
   .total {
-    height: calc(110px - 25px);
-    width: inherit;
-    display: flex;
-    flex-direction: column;
+    @include flex-column;
     justify-content: flex-end;
+    height: $total-height;
+    width: $frame-width;
     cursor: pointer;
     position: absolute;
     transform: translate( 0, -50%);
     top: 70%;
 
     .amount-bill, .amount-revenue {
-      height: 18px;
-      line-height: 18px;
-      color: #6F7E86;
-      padding-left: 10px;
+      height: $amount-height;
+      line-height: $amount-height;
+      color: $num-doc-color;
+      padding-left: $pad-10-l;
     }
 
     .amount-revenue {
-      color: #00875A;
+      color: $green-select;
       margin-bottom: 5px;
     }
 
@@ -103,12 +118,16 @@ export default {
       height: 8px;
     }
 
+    .selector-bar.selected-clicked {
+      background: $green-clicked;
+    }
+
     .selector-bar.selected {
-      background: #00875A;
+      background: $green-select;
     }
   }
 }
 .frame:first-child {
-  border-left: solid 1px #cecece;
+  border-left: $border-grey;
 }
 </style>

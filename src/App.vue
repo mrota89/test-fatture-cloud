@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <Year/>
+    <div class="container">
+       <Year/>
+      <div v-for="(month, index) in monthToRender" :key="index"> Mesi selezionati: {{month}}</div>
+    </div>
   </div>
 </template>
 
@@ -11,20 +14,27 @@ export default {
   name: 'App',
   components: {
     Year,
+  },
+  data: function() {
+    return {
+      monthToRender: []
+    }
   }
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "./scss/_commons.scss";
 @font-face {
   font-family: "Inter";
   src: local("Inter"),
   url(./font/Inter/Inter-Regular.ttf) format("truetype");
 }
 #app {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .container {
+    height: 90vh;
+    @include flex-column;
+    @include flex-center;
+  }
 }
 </style>

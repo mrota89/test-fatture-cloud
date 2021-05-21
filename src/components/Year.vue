@@ -5,7 +5,7 @@
     :bill="item.documenti" 
     :revenue="item.importo" 
     :indice="index" 
-    :altezza="item.altezza"
+    :graph="item.graphValue"
     :key="index"/>
   </div>
 </template>
@@ -38,7 +38,8 @@ export default {
       ajaxCallData: [],
       monthRevenue: [],
       monthIDarray: [],
-      altezze: [],
+      monthNameArray: [],
+      graphValues: [],
       dragging: false,
       maxRevenue: 0
     }
@@ -51,12 +52,13 @@ export default {
     this.axios
     .get('http://staccah.fattureincloud.it/testfrontend/data.json')
     .then((xhr) => {
+      //salvo in array gli oggetti ottenuti dalla chiamata ajax
       this.ajaxCallData = xhr.data.mesi;
 
-      //pusho nell'oggetto  il mese corrispondente
-      this.createArray(this.month, 'mese');
+      //pusho nell'oggetto il mese corrispondente
+      this.pushProperties(this.month, 'mese');
 
-        //salvo in un array gli importi mensili
+      //salvo in un array gli importi mensili
       this.ajaxCallData.forEach((element) => {
         this.monthRevenue.push(element.importo);
       })
@@ -66,13 +68,16 @@ export default {
 
       //trasformo in percentuale i valori degli importi e li salvo in un array
       this.monthRevenue.forEach((element) => {
-        let altezzaRettangolo = 0;
-        altezzaRettangolo = element/this.maxRevenue;
-        this.altezze.push(parseFloat(altezzaRettangolo.toFixed(2)) * 100);
+        let graphHeight = 0;
+        graphHeight = element/this.maxRevenue;
+        this.graphValues.push(parseFloat(graphHeight.toFixed(2)));
       })
 
-      this.createArray(this.altezze, 'altezza');
-    });//end axios call
+      //pusho nell'oggetto il valore percentuale corrispondente
+      this.pushProperties(this.graphValues, 'graphValue');
+    });//end ajax call
+
+    this.$parent.monthToRender = this.monthNameArray;
   },//end mounted
 
   methods: {
@@ -82,7 +87,7 @@ export default {
     stopDrag: function() {
       this.dragging = false;
     },
-    createArray: function(array, property) {
+    pushProperties: function(array, property) {
       this.ajaxCallData.forEach((element, index) => {
         array.forEach((item, indice) => {
           if(index === indice) {

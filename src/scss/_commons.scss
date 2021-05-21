@@ -1,0 +1,27 @@
+@mixin flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin flex-center {
+    justify-content: center;
+    align-items: center;
+}
+
+$border-grey: solid 1px #cecece;
+$light-blue: #0d97d5;
+$border-blue: solid 2px $light-blue;
+$green-select: #00875A;
+$green-clicked: #80ad9d;
+$num-doc-color: #6F7E86;
+$frame-width: 80px;
+$frame-height: 110px;
+$month-height: 25px;
+$total-height: calc(110px - 25px);
+$amount-height: 18px;
+$pad-10-l: 10px;
