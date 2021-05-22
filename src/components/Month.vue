@@ -1,5 +1,5 @@
 <template>
-  <div class="frame" @mouseenter="draggedMonth" @mousedown="clickedMonth">
+  <div class="frame" @mouseenter="draggedMonth" @mousedown.exact="clickedMonth" @click.ctrl="pushMonth">
     <div class="month">{{ month }}</div>
 
     <!-- barra grafico di sfondo -->
