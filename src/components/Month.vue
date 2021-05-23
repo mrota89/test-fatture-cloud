@@ -1,18 +1,27 @@
 <template>
-  <div class="frame" @mouseenter="draggedMonth" @mousedown.exact="clickedMonth" @click.ctrl="pushMonth">
-    <div class="month">{{ month }}</div>
+  <div class="frame" 
+  @mouseenter="draggedMonth" 
+  @mousedown.exact="clickedMonth" 
+  @click.ctrl="pushMonth">
+    <div class="month">
+      {{ month }}
+    </div>
 
     <!-- barra grafico di sfondo -->
     <div class="graph" :style="styleObject"></div>
     <!-- /barra grafico di sfondo -->
 
     <div class="total">
-      <div class="amount-bill">{{ bill }} doc.</div>
-      <div class="amount-revenue">{{ revenue }} €</div>
+      <div class="amount-bill">
+        {{ bill }} doc.
+      </div>
+      <div class="amount-revenue">
+        {{ revenue }} €
+      </div>
 
-      <!-- selettore casella -->
+      <!-- barra di selezione -->
       <div :class="selectedMonth()"></div>
-      <!-- /selettore casella -->
+      <!-- /barra di selezione -->
     </div>
   </div>
 </template>
@@ -74,6 +83,10 @@ export default {
 <style lang="scss" scoped>
 
 /*variabili */
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
 $border-grey: solid 1px #cecece;
 $light-blue: #0d97d5;
 $border-blue: solid 2px $light-blue;
@@ -89,8 +102,7 @@ $pad-10-l: 10px;
 /*/variabili */
 
 .frame {
-  display: flex;
-  flex-direction: column;
+  @include flex-column;
   justify-content: space-between;
   border-right: $border-grey;
   border-bottom: $border-blue;
@@ -111,8 +123,7 @@ $pad-10-l: 10px;
   }
 
   .total {
-    display: flex;
-    flex-direction: column;
+    @include flex-column;
     justify-content: flex-end;
     height: $total-height;
     width: $frame-width;
@@ -146,6 +157,7 @@ $pad-10-l: 10px;
     }
   }
 }
+
 .frame:first-child {
   border-left: $border-grey;
 }

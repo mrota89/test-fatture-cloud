@@ -3,9 +3,9 @@
     <div class="container">
       <Year/>
       <div v-if="monthToRender.length > 0" class="show-month">
-        <div>Mesi selezionati:</div>
-        <div v-for="(month, index) in monthToRender" :key="index">     
-          <div>{{month}}</div>
+        <div>Mesi selezionati:</div> 
+        <div class="month-list" v-for="(month, index) in monthToRender" :key="index">     
+          {{month}}
         </div>
       </div>
     </div>
@@ -18,7 +18,7 @@ import Year from './components/Year.vue'
 export default {
   name: 'App',
   components: {
-    Year,
+    Year
   },
   data: function() {
     return {
@@ -49,6 +49,7 @@ export default {
       transform: translate(-50% , -50%);
       top: 80%;
       left: 50%;
+      font-family: 'Inter', sans-serif;
     }
   }
 }

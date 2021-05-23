@@ -1,24 +1,17 @@
-# test-fatture-cloud
+# test-fatture-cloud 
 
-## Project setup
+**Prima di avviare l'applicazione, da terminale spostarsi all'interno della cartella del progetto,**
+**e installare le dipendenze:**
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+## Per avviare il server in locale:
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+## Link per visualizzare al serve locale:
 ```
-npm run build
+http://localhost:8080/
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

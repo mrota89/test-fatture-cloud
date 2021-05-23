@@ -1,5 +1,5 @@
 <template>
-  <div id="year" @mousedown="startDrag">
+  <div id="year" @mousedown="startDrag" @mouseleave="stopDrag">
     <Month v-for="(item, index) in ajaxCallData" 
     :month="item.mese" 
     :bill="item.documenti" 
@@ -16,7 +16,7 @@ import Month from './Month.vue'
 export default {
   name: 'Year',
   components: {
-    Month,
+    Month
   },
   data: function(){
     return {
