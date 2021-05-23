@@ -47,7 +47,7 @@ export default {
       padding-top: 10px;
       position: absolute;
       transform: translate(-50% , -50%);
-      top: 80%;
+      top: 85%;
       left: 50%;
       font-family: 'Inter', sans-serif;
     }
