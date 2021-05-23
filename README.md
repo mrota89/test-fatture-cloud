@@ -1,7 +1,6 @@
 # test-fatture-cloud 
 
-### Prima di avviare l'applicazione, da terminale spostarsi all'interno della cartella del progetto,
-### e installare le dipendenze:
+### Prima di avviare l'applicazione, da terminale spostarsi all'interno della cartella del progetto ed installare le dipendenze:
 ```
 npm install
 ```
