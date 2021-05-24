@@ -34,6 +34,7 @@ export default {
   src: local("Inter"),
   url(./font/Inter/Inter-Regular.ttf) format("truetype");
 }
+
 #app {
   .container {
     height: 90vh;

@@ -2,14 +2,14 @@
   <div class="frame" 
   @mouseenter="draggedMonth" 
   @mousedown.exact="clickedMonth" 
-  @click.ctrl="pushMonth">
+  @mousedown.ctrl="ctrlClick">
     <div class="month">
       {{ month }}
     </div>
 
-    <!-- barra grafico di sfondo -->
+    <!-- barra del grafico di sfondo -->
     <div class="graph" :style="styleObject"></div>
-    <!-- /barra grafico di sfondo -->
+    <!-- /barra del grafico di sfondo -->
 
     <div class="total">
       <div class="amount-bill">
@@ -39,8 +39,9 @@ export default {
   
   data: function() {
     return {
-       //dati di stile per la barra-grafico di sfondo
+      //dati di stile per la barra del grafico di sfondo
       styleObject: {
+        //85px = altezza massima della barra
         height: `calc(85px * ${this.graph})`,
         backgroundColor: '#e0f1eb', 
       }
@@ -58,24 +59,32 @@ export default {
         return 'selector-bar'
       }
     },
-    //salva in un array l'index del mese selezionato
-    pushMonth: function() {
-      this.$parent.monthIDarray.push(this.indice);
-      
-      if(!this.$parent.monthNameArray.includes(this.month)) {
-        this.$parent.monthNameArray.push(this.month);
+
+    // salva in un array una proprietà del componente
+    pushMonth: function(array, element) {
+      if(!array.includes(element)) {
+        array.push(element);
       }
     },
+
     clickedMonth: function() {
       this.$parent.monthIDarray.length = 0;
       this.$parent.monthNameArray.length = 0;
-      this.pushMonth();
+      this.pushMonth(this.$parent.monthIDarray, this.indice);
+      this.pushMonth(this.$parent.monthNameArray, this.month);
     },
+
     draggedMonth: function() {
       if(this.$parent.dragging) {
-        this.pushMonth();
+        this.pushMonth(this.$parent.monthIDarray, this.indice);
+        this.pushMonth(this.$parent.monthNameArray, this.month);
       }
     },
+
+    ctrlClick: function() {
+      this.pushMonth(this.$parent.monthIDarray, this.indice);
+      this.pushMonth(this.$parent.monthNameArray, this.month);
+    }
   }
 }
 </script>
