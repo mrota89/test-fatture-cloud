@@ -3,10 +3,11 @@
     <Month v-for="(item, index) in ajaxCallData" 
     :month="item.mese" 
     :bill="item.documenti" 
-    :revenue="item.importo" 
+    :revenue="item.toStringImport" 
     :indice="index" 
     :graph="item.graphValue"
     :key="index"/>
+    <div v-if="error">The page could not be loaded. Please try again later.</div>
   </div>
 </template>
 
@@ -40,7 +41,9 @@ export default {
       monthIDarray: [],
       monthNameArray: [],
       graphValues: [],
+      numToStringValue: [],
       dragging: false,
+      error: false,
       maxRevenue: 0
     }
   },
@@ -48,6 +51,11 @@ export default {
     //listener sul rilascio del click
     window.addEventListener('mouseup', this.stopDrag);
 
+    //mostra messaggio di errore in caso di fallita chiamata ajax
+    setTimeout(() => {
+      this.errorMessage();
+    }, 3000);
+    
     //chiamata ajax
     this.axios
     .get('http://staccah.fattureincloud.it/testfrontend/data.json')
@@ -66,15 +74,23 @@ export default {
       //trovo l'importo più alto
       this.maxRevenue = Math.max(...this.monthRevenue);
 
-      //trasformo in percentuale i valori degli importi e li salvo in un array
       this.monthRevenue.forEach((element) => {
+        //trasformo in percentuale i valori degli importi e li salvo in un array
         let graphHeight = 0;
         graphHeight = element/this.maxRevenue;
-        this.graphValues.push(parseFloat(graphHeight.toFixed(2)));
+        this.graphValues.push(parseFloat(graphHeight.toFixed(3)));
+
+        //trasformo in "dot notation" i valori degli importi e li salvo in un array
+        let numberToString = element.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+        this.numToStringValue.push(numberToString);
       })
 
       //pusho nell'oggetto il valore percentuale corrispondente
       this.pushProperties(this.graphValues, 'graphValue');
+
+      //pusho nell'oggetto la stringa dell'importo corrispondente
+      this.pushProperties(this.numToStringValue, 'toStringImport');
+
     });//end ajax call
 
     this.$parent.monthToRender = this.monthNameArray;
@@ -84,9 +100,11 @@ export default {
     startDrag: function() {
       this.dragging = true;
     },
+
     stopDrag: function() {
       this.dragging = false;
     },
+
     pushProperties: function(array, property) {
       this.ajaxCallData.forEach((element, index) => {
         array.forEach((item, indice) => {
@@ -95,7 +113,13 @@ export default {
           }
         })
       })   
-    }
+    },
+
+    errorMessage: function() { 
+      if(this.ajaxCallData.length === 0) {
+        this.error = true;
+      }
+    },
   }//end methods
 }
 </script>

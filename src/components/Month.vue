@@ -32,7 +32,7 @@ export default {
   props: {
     month: String,
     bill: Number,
-    revenue: Number,
+    revenue: String,
     indice: Number,
     graph: Number,
   },
@@ -41,8 +41,8 @@ export default {
     return {
       //dati di stile per la barra del grafico di sfondo
       styleObject: {
-        //85px = altezza massima della barra
-        height: `calc(85px * ${this.graph})`,
+        //83px = altezza massima della barra
+        height: `calc(83px * ${this.graph})`,
         backgroundColor: '#e0f1eb', 
       }
     }
